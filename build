@@ -1,0 +1,79 @@
+#!/bin/bash
+
+BINARY_NAME="statx"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BIN_DIR="$SCRIPT_DIR/bin"
+FAT_BINARY="$BIN_DIR/$BINARY_NAME"
+AMD64_BINARY="$BIN_DIR/${BINARY_NAME}_amd64"
+ARM64_BINARY="$BIN_DIR/${BINARY_NAME}_arm64"
+RELEASE_DIR="$SCRIPT_DIR/release"
+DMG_NAME="${BINARY_NAME}.dmg"
+DMG_SRC_FOLDER="$SCRIPT_DIR/${BINARY_NAME}-package"
+README_FILE="$DMG_SRC_FOLDER/README.md"
+INSTALL_DIR="$HOME/bin"
+INSTALL_BINARY="$INSTALL_DIR/$BINARY_NAME"
+
+# Create the bin and release directories
+mkdir -p "$BIN_DIR"
+mkdir -p "$RELEASE_DIR"
+
+# Build for Intel (amd64)
+GOOS=darwin GOARCH=amd64 go build -o "$AMD64_BINARY"
+
+# Build for Apple Silicon (arm64)
+GOOS=darwin GOARCH=arm64 go build -o "$ARM64_BINARY"
+
+# Create the fat binary
+lipo -create -output "$FAT_BINARY" "$AMD64_BINARY" "$ARM64_BINARY"
+
+# Verify the fat binary
+lipo -info "$FAT_BINARY"
+
+# Create a directory for the .dmg contents
+mkdir -p "$DMG_SRC_FOLDER"
+cp "$FAT_BINARY" "$DMG_SRC_FOLDER/"
+
+# Create a README file with installation instructions
+cat <<EOF > "$README_FILE"
+# $BINARY_NAME
+
+## Installation
+
+To install the \`$BINARY_NAME\` CLI tool, move the binary to your \`~/bin\` directory and ensure it's in your \`PATH\`.
+
+\`\`\`bash
+mkdir -p ~/bin
+mv $BINARY_NAME ~/bin/
+\`\`\`
+
+Make sure \`~/bin\` is in your \`PATH\`:
+
+\`\`\`bash
+export PATH="\$HOME/bin:\$PATH"
+\`\`\`
+EOF
+
+# Create the .dmg file
+hdiutil create -volname "$BINARY_NAME" -srcfolder "$DMG_SRC_FOLDER" -ov -format UDZO "$RELEASE_DIR/$DMG_NAME"
+
+# Optional: Customize the .dmg
+# Mount the disk image
+hdiutil attach "$RELEASE_DIR/$DMG_NAME" -noverify -nobrowse -mountpoint /Volumes/$BINARY_NAME
+
+# Unmount the disk image
+hdiutil detach /Volumes/$BINARY_NAME
+
+# Cleanup
+rm -rf "$DMG_SRC_FOLDER"
+
+# Install the binary to ~/bin
+mkdir -p "$INSTALL_DIR"
+cp "$FAT_BINARY" "$INSTALL_BINARY"
+
+# Ensure ~/bin is in PATH
+if ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
+    echo 'export PATH="$HOME/bin:$PATH"' >> "$HOME/.zshrc"
+    source "$HOME/.zshrc"
+fi
+
+echo "Installation complete. The '$BINARY_NAME' binary is now in $INSTALL_DIR"

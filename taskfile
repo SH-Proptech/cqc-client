@@ -1,0 +1,25 @@
+#!/bin/bash
+
+function tag {
+    VERSION=$(cat version.txt)
+    git tag -a "v$VERSION" -m "Release version $VERSION"
+    git push origin "v$VERSION"
+}
+
+function test {
+    go test -count=1 ./ -v $@
+}
+
+function tidy {
+    go mod tidy
+}
+
+# ---------- Do NOT edit below --------------
+
+function help { ## Display usage for this application
+  echo "$0 <task> <args>"
+  grep -E '^function [a-zA-Z_-]+ {.*?## .*$$' $0 | sed -e 's/function //' | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "\033[93m%-30s\033[92m %s\033[0m\n", $1, $2}'
+}
+
+TIMEFORMAT="Task completed in %3lR"
+time ${@:-help}
