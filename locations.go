@@ -3,8 +3,6 @@ package cqc
 import (
 	"context"
 	"fmt"
-
-	"github.com/sh-proptech/pimp/pkg/logger"
 )
 
 // GetLocations fetches a single page of locations.
@@ -21,10 +19,6 @@ func (c *Client) GetLocation(id string) (*Location, error) {
 	locationDetails, err := Get[Location](c, pathLocations+"/"+id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get location details for ID %s: %v", id, err)
-	}
-	if locationDetails.LocationID == "" {
-		logger.Sugar.Info("Location not found:", id)
-		logger.Pjson(locationDetails)
 	}
 	return locationDetails, nil
 }
