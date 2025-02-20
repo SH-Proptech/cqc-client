@@ -20,43 +20,43 @@ type ProvidersResponse struct {
 
 type Provider struct {
 	ProviderID            string                 `json:"providerId"`
-	LocationIDs           []string               `json:"locationIds"`
-	OrganisationType      string                 `json:"organisationType"`
-	OwnershipType         string                 `json:"ownershipType"`
-	Type                  string                 `json:"type"`
-	Name                  string                 `json:"name"`
+	AlsoKnownAs           string                 `json:"alsoKnownAs"`
 	BrandID               string                 `json:"brandId"`
 	BrandName             string                 `json:"brandName"`
-	OdsCode               string                 `json:"odsCode"`
-	RegistrationStatus    string                 `json:"registrationStatus"`
-	RegistrationDate      string                 `json:"registrationDate"`
-	CompaniesHouseNumber  string                 `json:"companiesHouseNumber"`
 	CharityNumber         string                 `json:"charityNumber"`
-	Website               string                 `json:"website"`
-	PostalAddress         PostalAddress          `json:"-"`
-	Region                string                 `json:"region"`
-	AlsoKnownAs           string                 `json:"alsoKnownAs"`
-	DeregistrationDate    string                 `json:"deregistrationDate"`
-	Uprn                  string                 `json:"uprn"`
-	OnspdLatitude         float64                `json:"onspdLatitude"`
-	OnspdLongitude        float64                `json:"onspdLongitude"`
-	OnspdIcbCode          string                 `json:"onspdIcbCode"`
-	OnspdIcbName          string                 `json:"onspdIcbName"`
-	MainPhoneNumber       string                 `json:"mainPhoneNumber"`
-	InspectionDirectorate string                 `json:"inspectionDirectorate"`
+	CompaniesHouseNumber  string                 `json:"companiesHouseNumber"`
 	Constituency          string                 `json:"constituency"`
-	LocalAuthority        string                 `json:"localAuthority"`
+	Contacts              []Contact              `json:"contacts"`
+	CurrentRatings        Ratings                `json:"currentRatings"`
+	DeregistrationDate    string                 `json:"deregistrationDate"`
+	HistoricRatings       []HistoricRating       `json:"historicRatings"`
+	InspectionAreas       []InspectionArea       `json:"inspectionAreas"`
+	InspectionCategories  []InspectionCategory   `json:"inspectionCategories"`
+	InspectionDirectorate string                 `json:"inspectionDirectorate"`
 	LastInspection        Inspection             `json:"lastInspection"`
 	LastReport            Report                 `json:"lastReport"`
-	Contacts              []Contact              `json:"contacts"`
-	Relationships         []ProviderRelationship `json:"relationships"`
+	LocalAuthority        string                 `json:"localAuthority"`
+	LocationIDs           []string               `json:"locationIds"`
+	MainPhoneNumber       string                 `json:"mainPhoneNumber"`
+	Name                  string                 `json:"name"`
+	OdsCode               string                 `json:"odsCode"`
+	OnspdIcbCode          string                 `json:"onspdIcbCode"`
+	OnspdIcbName          string                 `json:"onspdIcbName"`
+	OnspdLatitude         float64                `json:"onspdLatitude"`
+	OnspdLongitude        float64                `json:"onspdLongitude"`
+	OrganisationType      string                 `json:"organisationType"`
+	OwnershipType         string                 `json:"ownershipType"`
+	PostalAddress         PostalAddress          `json:"-"`
+	Region                string                 `json:"region"`
+	RegistrationDate      string                 `json:"registrationDate"`
+	RegistrationStatus    string                 `json:"registrationStatus"`
 	RegulatedActivities   []RegulatedActivity    `json:"regulatedActivities"`
-	InspectionCategories  []InspectionCategory   `json:"inspectionCategories"`
-	InspectionAreas       []InspectionArea       `json:"inspectionAreas"`
-	CurrentRatings        Ratings                `json:"currentRatings"`
-	HistoricRatings       []HistoricRating       `json:"historicRatings"`
+	Relationships         []ProviderRelationship `json:"relationships"`
 	Reports               []Report               `json:"reports"`
+	Type                  string                 `json:"type"`
 	UnpublishedReports    []UnpublishedReport    `json:"unpublishedReports"`
+	Uprn                  string                 `json:"uprn"`
+	Website               string                 `json:"website"`
 }
 
 // LocationItem represents a provider's location.
@@ -84,56 +84,57 @@ type LocationsResponse struct {
 type Location struct {
 	LocationID                  string                   `json:"locationId"`
 	ProviderID                  string                   `json:"providerId"`
-	OrganisationType            string                   `json:"organisationType"`
-	Type                        string                   `json:"type"`
-	Name                        string                   `json:"name"`
+	AlsoKnownAs                 string                   `json:"alsoKnownAs"`
 	BrandID                     string                   `json:"brandId"`
 	BrandName                   string                   `json:"brandName"`
-	OnspdCcgCode                string                   `json:"onspdCcgCode"`
-	OnspdCcgName                string                   `json:"onspdCcgName"`
-	OdsCcgCode                  string                   `json:"odsCcgCode"`
-	OdsCcgName                  string                   `json:"odsCcgName"`
-	OnspdIcbCode                string                   `json:"onspdIcbCode"`
-	OnspdIcbName                string                   `json:"onspdIcbName"`
-	OdsCode                     string                   `json:"odsCode"`
-	RegistrationStatus          string                   `json:"registrationStatus"`
-	RegistrationDate            string                   `json:"registrationDate"`
+	CareHome                    string                   `json:"careHome"`
+	Constituency                string                   `json:"constituency"`
+	CurrentRatings              *Ratings                 `json:"currentRatings"`
 	DeregistrationDate          string                   `json:"deregistrationDate"`
 	Dormancy                    string                   `json:"dormancy"`
-	DormancyStartDate           string                   `json:"dormancyStartDate"`
 	DormancyEndDate             string                   `json:"dormancyEndDate"`
-	AlsoKnownAs                 string                   `json:"alsoKnownAs"`
-	OnspdLatitude               float64                  `json:"onspdLatitude"`
-	OnspdLongitude              float64                  `json:"onspdLongitude"`
-	CareHome                    string                   `json:"careHome"`
+	DormancyStartDate           string                   `json:"dormancyStartDate"`
+	GacServiceTypes             []GacServiceType         `json:"gacServiceTypes"`
+	HistoricRatings             []HistoricRating         `json:"historicRatings"`
+	InspectionAreas             []InspectionArea         `json:"inspectionAreas"`
+	InspectionCategories        []InspectionCategory     `json:"inspectionCategories"`
 	InspectionDirectorate       string                   `json:"inspectionDirectorate"`
-	Website                     string                   `json:"website"`
+	LastInspection              LastInspection           `json:"lastInspection"`
+	LastReport                  LastReport               `json:"lastReport"`
+	LocalAuthority              string                   `json:"localAuthority"`
+	LocationTypes               []LocationType           `json:"locationTypes"`
+	MainPhoneNumber             string                   `json:"mainPhoneNumber"`
+	Name                        string                   `json:"name"`
+	NumberOfBeds                int                      `json:"numberOfBeds"`
+	OdsCcgCode                  string                   `json:"odsCcgCode"`
+	OdsCcgName                  string                   `json:"odsCcgName"`
+	OdsCode                     string                   `json:"odsCode"`
+	OnspdCcgCode                string                   `json:"onspdCcgCode"`
+	OnspdCcgName                string                   `json:"onspdCcgName"`
+	OnspdIcbCode                string                   `json:"onspdIcbCode"`
+	OnspdIcbName                string                   `json:"onspdIcbName"`
+	OnspdLatitude               *float64                 `json:"onspdLatitude"`
+	OnspdLongitude              *float64                 `json:"onspdLongitude"`
+	OrganisationType            string                   `json:"organisationType"`
+	PostalAddressCounty         string                   `json:"postalAddressCounty"`
 	PostalAddressLine1          string                   `json:"postalAddressLine1"`
 	PostalAddressLine2          string                   `json:"postalAddressLine2"`
 	PostalAddressTownCity       string                   `json:"postalAddressTownCity"`
-	PostalAddressCounty         string                   `json:"postalAddressCounty"`
-	Region                      string                   `json:"region"`
 	PostalCode                  string                   `json:"postalCode"`
-	Uprn                        string                   `json:"uprn"`
-	MainPhoneNumber             string                   `json:"mainPhoneNumber"`
-	RegisteredManagerAbsentDate string                   `json:"registeredManagerAbsentDate"`
-	NumberOfBeds                int                      `json:"numberOfBeds"`
-	Constituency                string                   `json:"constituency"`
-	LocalAuthority              string                   `json:"localAuthority"`
-	LastInspection              LastInspection           `json:"lastInspection"`
-	LastReport                  LastReport               `json:"lastReport"`
-	Relationships               []LocationRelationship   `json:"relationships"`
-	LocationTypes               []LocationType           `json:"locationTypes"`
-	RegulatedActivities         []RegulatedActivity      `json:"regulatedActivities"`
-	GacServiceTypes             []GacServiceType         `json:"gacServiceTypes"`
-	Specialisms                 []Specialism             `json:"specialisms"`
-	InspectionCategories        []InspectionCategory     `json:"inspectionCategories"`
-	InspectionAreas             []InspectionArea         `json:"inspectionAreas"`
-	CurrentRatings              Ratings                  `json:"currentRatings"`
-	HistoricRatings             []HistoricRating         `json:"historicRatings"`
-	Reports                     []Report                 `json:"reports"`
-	UnpublishedReports          []UnpublishedReport      `json:"unpublishedReports"`
 	ProviderInspectionAreas     []ProviderInspectionArea `json:"providerInspectionAreas"`
+	Region                      string                   `json:"region"`
+	RegisteredManagerAbsentDate string                   `json:"registeredManagerAbsentDate"`
+	RegistrationDate            string                   `json:"registrationDate"`
+	RegistrationStatus          string                   `json:"registrationStatus"`
+	RegulatedActivities         []RegulatedActivity      `json:"regulatedActivities"`
+	Relationships               []LocationRelationship   `json:"relationships"`
+	Reports                     []Report                 `json:"reports"`
+	ServicesProviders           *string                  `json:"servicesProviders"`
+	Specialisms                 []Specialism             `json:"specialisms"`
+	Type                        string                   `json:"type"`
+	UnpublishedReports          []UnpublishedReport      `json:"unpublishedReports"`
+	Uprn                        string                   `json:"uprn"`
+	Website                     string                   `json:"website"`
 }
 
 // Address struct

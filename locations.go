@@ -37,7 +37,6 @@ func (c *Client) GetAllLocations(ctx context.Context, concurrency, pageSize, sta
 	for nextPage != "" {
 		// Fetch a page of locations
 		locationsResponse, err := c.GetLocations(nextPage)
-		fmt.Println(locationsResponse)
 		if err != nil {
 			return err
 		}
